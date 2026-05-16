@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name_product": "Bis lily",
+      "link_image": "https://habobuss.se/wp-content/uploads/2025/06/Skarmavbild-2025-06-01-kl.-21.39.55-scaled.png"
+    },
+    {
+      "id": 2,
+      "name_product": "Gantungan kunci lily",
+      "link_image": "https://filebroker-cdn.lazada.co.id/kf/S896ef80c0c774328b0c08d814e204653d.jpg"
+    }
+  ]
+}
