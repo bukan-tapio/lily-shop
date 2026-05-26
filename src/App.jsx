@@ -1,43 +1,25 @@
-import { useState } from "react";
-import Card from "./components/Cards";
+import { Routes, Route } from "react-router";
+import TermsPage from "./Pages/TermsPage";
+import HomePage from "./Pages/HomePage";
+import PageNotFound from "./Pages/PageNotFound";
+import ProductDetailPage from "./Pages/ProductDetailPage";
+import ProductListPage from "./Pages/ProductList";
+import "./style/Global.css";
 
 const App = () => {
-  const [amountProduct, setAmountProduct] = useState([]);
-
-  const getProducts = async () => {
-    const request = await fetch("http://localhost:3000/products", {
-      method: "GET",
-    });
-
-    const response = await request.json();
-    setAmountProduct(response);
-
-    console.log(response);
-  };
-
   return (
-    <div className="container">
-      <span className="hello world"></span>
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/product" element={<ProductDetailPage />} />
 
-      <button
-        onClick={getProducts}
-        style={{ backgroundColor: "salmon", widt: "5rem" }}
-      >
-        Click button ini
-      </button>
+        {/* dynamic route */}
+        <Route path="/products" element={<ProductListPage />} />
 
-      <div className="cards-container">
-        {amountProduct.map((duct) => {
-          return (
-            <Card
-              key={duct.id}
-              name={duct.name_product}
-              image={duct.link_image}
-            />
-          );
-        })}
-      </div>
-    </div>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </>
   );
 };
 

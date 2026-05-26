@@ -1,0 +1,3 @@
+for icon : https://iconbuddy.com/
+for collor pallete : https://colorion.co/
+for ui library : https://tailgrids.com/
