@@ -8,23 +8,39 @@ import Footer from "../components/Footer";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchProduct = async () => {
     const request = await fetch("http://localhost:3000/books", {
       method: "GET",
     });
-
     const response = await request.json();
-
     setProducts(response);
+  };
 
-    console.log(response);
+  const contentPerPage = 5;
+  const totalItems = products.length;
+  const totalPages = Math.ceil(totalItems / contentPerPage);
+  const startIndexContent = (currentPage - 1) * contentPerPage;
+  const endIndexContent = startIndexContent + contentPerPage;
+  const currentContent = products.slice(startIndexContent, endIndexContent);
+
+  const gotoNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const gotoPrevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const gotoPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
     <>
       <Navbar />
-      <div className="container" style={{ width: "100%", minHeight: "100vh" }}>
+      <div className="container" style={{ width: "100%" }}>
         <h1>Hello world</h1>
         <div style={{ display: "flex", gap: "1rem" }}>
           <Link to="/terms">Pergi ke terms</Link>
@@ -36,21 +52,65 @@ const HomePage = () => {
           style={{
             width: "100%",
             marginTop: "1rem",
+            padding: "1rem",
             display: "flex",
             justifyContent: "center",
+            alignItems: "center",
             gap: ".7rem",
             flexWrap: "wrap",
           }}
         >
-          {products.map((product) => {
+          {currentContent.map((content) => {
             return (
               <Card
-                key={product.id}
-                name={product.name_product}
-                image={product.link_image}
+                key={content.id}
+                name={content.name_product}
+                image={content.link_image}
               />
             );
           })}
+        </div>
+
+        <div
+          className="pagination"
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <button
+            className="prev-button"
+            disabled={currentPage === 1}
+            onClick={gotoPrevPage}
+            style={{ marginRight: "1rem", padding: ".5rem 1rem" }}
+          >
+            Sebelum
+          </button>
+
+          <div className="number-page">
+            {Array.from({ length: totalPages }).map((_, index) => {
+              const pageNumber = index + 1;
+
+              return (
+                <button
+                  className="number-page-button"
+                  key={index}
+                  onClick={() => {
+                    gotoPage(pageNumber);
+                  }}
+                  style={{ padding: ".5rem 1rem" }}
+                >
+                  {pageNumber}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            className="next-button"
+            disabled={currentPage === totalPages || products.length === 0}
+            onClick={gotoNextPage}
+            style={{ marginLeft: "1rem", padding: ".5rem 1rem" }}
+          >
+            Next
+          </button>
         </div>
       </div>
 
