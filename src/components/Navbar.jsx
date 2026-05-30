@@ -1,5 +1,4 @@
 import { NavLink } from "react-router";
-import { Form } from "react-router";
 
 const Navbar = () => {
   return (
@@ -15,7 +14,16 @@ const Navbar = () => {
           alignItems: "center",
         }}
       >
-        <div className="icon-website">{/* icon website */}</div>
+        <div
+          className="icon-website"
+          style={{ maxWidth: "80px", maxHeight: "80px", objectFit: "cover" }}
+        >
+          <img
+            src="../../public/images/lily-shop-logo.png"
+            alt="lily-shop-logo"
+            style={{ display: "block", width: "100%", height: "100%" }}
+          />
+        </div>
 
         <nav style={{ display: "flex", alignItems: "center" }}>
           <NavLink

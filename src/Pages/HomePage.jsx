@@ -1,22 +1,36 @@
 // LINK hanya merubah pada browser, bukan request ke server
 
 import { Link } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Spinner from "../components/IsLoading";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const fetchProduct = async () => {
-    const request = await fetch("http://localhost:3000/books", {
-      method: "GET",
-    });
-    const response = await request.json();
-    setProducts(response);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const request = await fetch("http://localhost:3000/books", {
+          method: "GET",
+        });
+        const response = await request.json();
+        setProducts(response);
+
+        setIsLoading(false);
+      } catch (e) {
+        alert(e);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const contentPerPage = 5;
   const totalItems = products.length;
@@ -39,12 +53,12 @@ const HomePage = () => {
 
   return (
     <>
+      {isLoading ? <Spinner /> : null}
       <Navbar />
       <div className="container" style={{ width: "100%" }}>
         <h1>Hello world</h1>
         <div style={{ display: "flex", gap: "1rem" }}>
           <Link to="/terms">Pergi ke terms</Link>
-          <button onClick={fetchProduct}>Fetch</button>
         </div>
 
         <div
@@ -113,7 +127,6 @@ const HomePage = () => {
           </button>
         </div>
       </div>
-
       <Footer />
     </>
   );
